@@ -2,15 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { KafkaService } from 'src/kafka/kafka.service';
 
 @Injectable()
 export class CustomersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private kafkaService: KafkaService
+  ) {}
 
-  create(createCustomerDto: CreateCustomerDto) {
-    return this.prisma.customer.create({
+  async create(createCustomerDto: CreateCustomerDto) {
+    const created = await this.prisma.customer.create({
       data: createCustomerDto,
     });
+
+    this.kafkaService.sendMessage(created, process.env.KAFKA_TOPIC);
+
+    return created
   }
 
   findAll() {
