@@ -1,0 +1,12 @@
+{
+  "name": "kong",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "kong:init": "docker run --rm --network=host -e KONG_DATABASE=postgres -e KONG_PG_HOST=localhost -e KONG_PG_USER=kong -e KONG_PG_PASSWORD=kong -e KONG_PG_DATABASE=kong kong:3.2 kong migrations bootstrap"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

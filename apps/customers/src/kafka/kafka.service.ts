@@ -8,7 +8,7 @@ export class KafkaService implements OnModuleInit {
   onModuleInit() {
     const kafka = new Kafka({
       clientId: process.env.KAFKA_CLIENT_ID,
-      brokers: [process.env.KAFKA_BROKER_URL],
+      brokers: ['localhost:29092'],
     });
     this.kafka = kafka;
   }

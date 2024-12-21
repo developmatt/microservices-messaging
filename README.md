@@ -1,5 +1,5 @@
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -27,18 +27,25 @@
 
 1. Start Kafka and Zookeeper using Docker Compose:
     ```bash
+    cd infra/kafka
     docker-compose up -d
     ```
 
-2. Start the `customers` microservice:
+2. Start Kong and Konga (API Gateway and Admin Interface):
     ```bash
-    cd apps/customers
+    cd ../kong
+    docker-compose up -d
+    ```
+
+3. Start the `customers` microservice:
+    ```bash
+    cd ../../apps/customers
     yarn run start:dev
     ```
 
-3. Start the `orders` microservice:
+4. Start the `orders` microservice:
     ```bash
-    cd apps/orders
+    cd ../orders
     yarn run start:dev
     ```
 
@@ -58,16 +65,17 @@ To run tests for each microservice, use the following commands:
     yarn run test
     ```
 
-## Microservices Communication
+## 📡 Microservices Communication
 
 The `customers` and `orders` microservices communicate with each other using Kafka messaging. When a new customer is created in the `customers` microservice, a Kafka message is sent to the `orders` microservice to create a reference to this customer.
 
 ### Kafka Setup
 
-To run Kafka locally, you can use the `docker-compose.yml` file.
+To run Kafka locally, you can use the `docker-compose.yml` file located in [kafka](http://_vscodecontentref_/0).
 
 1. Start Kafka and Zookeeper:
     ```bash
+    cd infra/kafka
     docker-compose up -d
     ```
 
@@ -87,55 +95,56 @@ To run Kafka locally, you can use the `docker-compose.yml` file.
     docker exec -it kafka /usr/bin/kafka-topics --list --bootstrap-server localhost:9092
     ```
 
-5. Test Kafka messaging:
-    - Listening:
-        ```bash
-        docker exec -it kafka /usr/bin/kafka-console-consumer --topic new_topic --bootstrap-server localhost:9092 --from-beginning
-        ```
-    - Sending:
-        ```bash
-        docker exec -it kafka /usr/bin/kafka-console-producer --topic new_topic --bootstrap-server localhost:9092
-        ```
+### Kong Setup
 
-## Entities
+To configure Kong and the services and routes within Konga, follow the instructions below:
+
+1. Access the Konga interface at `http://localhost:1337`.
+2. Add a new service in Konga:
+    - **Name**: customers-service
+    - **URL**: http://customers:3000
+3. Add a route for the `customers-service`:
+    - **Paths**: /customers
+4. Repeat the process for the `orders-service`:
+    - **Name**: orders-service
+    - **URL**: http://orders:3000
+    - **Paths**: /orders
+
+## 🗂️ Entities
 
 ### Customers Microservice
 
 - **Customer**
-    - [id](http://_vscodecontentref_/2): String (Primary Key)
-    - [email](http://_vscodecontentref_/3): String (Unique)
-    - [password](http://_vscodecontentref_/4): String
-    - [name](http://_vscodecontentref_/5): String
-    - [phone](http://_vscodecontentref_/6): String
+    - `id`: String (Primary Key)
+    - `email`: String (Unique)
+    - `password`: String
+    - `name`: String
+    - `phone`: String
     - `createdAt`: DateTime (Default: now)
     - `updatedAt`: DateTime (Updated automatically)
 
 ### Orders Microservice
 
 - **Order**
-    - [id](http://_vscodecontentref_/7): String (Primary Key)
+    - `id`: String (Primary Key)
     - `createdAt`: DateTime (Default: now)
     - `updatedAt`: DateTime (Updated automatically)
-    - [total](http://_vscodecontentref_/8): Float
-    - [customerId](http://_vscodecontentref_/9): String (Foreign Key referencing [Customer](http://_vscodecontentref_/10) in `customers` microservice)
-    - [customer](http://_vscodecontentref_/11): Customer (Relation to [Customer](http://_vscodecontentref_/12) entity in `customers` microservice)
+    - `total`: Float
+    - `customerId`: String (Foreign Key referencing `Customer` in `customers` microservice)
+    - `customer`: Customer (Relation to `Customer` entity in `customers` microservice)
 
 - **Customer**
-    - [id](http://_vscodecontentref_/13): String (Primary Key)
+    - `id`: String (Primary Key)
     - `createdAt`: DateTime (Default: now)
     - `updatedAt`: DateTime (Updated automatically)
-    - [externalId](http://_vscodecontentref_/14): String (Reference to [Customer](http://_vscodecontentref_/15) entity in `customers` microservice)
+    - `externalId`: String (Reference to `Customer` entity in `customers` microservice)
 
-## Additional Information
+## 📄 Additional Information
 
 - **Environment Variables**: Ensure to set the necessary environment variables in a `.env` file for both microservices.
 - **Code Quality**: The project uses ESLint and Prettier for code quality and formatting. Run `yarn lint` and `yarn format` to check and format the code.
 - **Database**: Both microservices use SQLite as the database. Prisma is used as the ORM.
 
-## License
+## 📜 License
 
 This project is licensed under the MIT License.
-
-## Contact
-
-For any questions or support, please reach out to the project maintainers.

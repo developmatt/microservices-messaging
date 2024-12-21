@@ -43,3 +43,17 @@ Content-Type: application/json
   "username": "john2@doe.com",
   "password": "12345678"
 }
+
+###
+
+# Customers with API Gateway (Kong)
+POST http://localhost:8000/customers/api/v1/
+Content-Type: application/json
+
+{
+  "email": "john2@doe.com",
+  "name": "John",
+  "phone": "1234567890",
+  "password": "12345678"
+}
+###
