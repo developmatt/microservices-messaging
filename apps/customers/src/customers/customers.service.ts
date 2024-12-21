@@ -3,12 +3,13 @@ import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { KafkaService } from 'src/kafka/kafka.service';
+import { MessageTypesEnum } from 'src/kafka/enum/message-types.enum';
 
 @Injectable()
 export class CustomersService {
   constructor(
     private prisma: PrismaService,
-    private kafkaService: KafkaService
+    private kafkaService: KafkaService,
   ) {}
 
   async create(createCustomerDto: CreateCustomerDto) {
@@ -16,9 +17,15 @@ export class CustomersService {
       data: createCustomerDto,
     });
 
-    this.kafkaService.sendMessage(created, process.env.KAFKA_TOPIC);
+    this.kafkaService.sendMessage(
+      {
+        type: MessageTypesEnum.CUSTOMER_CREATED,
+        payload: created,
+      },
+      process.env.KAFKA_TOPIC,
+    );
 
-    return created
+    return created;
   }
 
   findAll() {

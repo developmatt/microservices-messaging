@@ -1,5 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Kafka } from 'kafkajs';
+import { SendMessageDto } from './dto/send-message.dto';
 
 @Injectable()
 export class KafkaService implements OnModuleInit {
@@ -12,7 +13,7 @@ export class KafkaService implements OnModuleInit {
     this.kafka = kafka;
   }
 
-  sendMessage(data: any, topic: string = process.env.KAFKA_TOPIC) {
+  sendMessage(data: SendMessageDto, topic: string = process.env.KAFKA_TOPIC) {
     const producer = this.kafka.producer();
     producer.connect().then(() => {
       producer.send({
