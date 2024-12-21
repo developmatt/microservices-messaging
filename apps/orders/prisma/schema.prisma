@@ -14,10 +14,12 @@ datasource db {
 }
 
 model Order {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  total     Float
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  total      Float
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
 }
 
 model Customer {
@@ -25,4 +27,5 @@ model Customer {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   externalId String
+  orders     Order[]
 }
