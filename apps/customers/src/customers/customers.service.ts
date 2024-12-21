@@ -16,7 +16,7 @@ export class CustomersService {
       data: createCustomerDto,
     });
 
-    this.kafkaService.sendMessage(created, 'novo_topico');
+    this.kafkaService.sendMessage(created, process.env.KAFKA_TOPIC);
 
     return created
   }
