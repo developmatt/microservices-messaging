@@ -23,6 +23,12 @@ export class CustomersService {
     });
   }
 
+  findByEmail(email: string) {
+    return this.prisma.customer.findFirst({
+      where: { email },
+    });
+  }
+
   update(id: string, updateCustomerDto: UpdateCustomerDto) {
     return this.prisma.customer.update({
       where: { id },

@@ -32,3 +32,14 @@ Content-Type: application/json
 
 #Delete
 DELETE http://localhost:3000/customers/cm4y6qrt800001k37ye9m6qby
+
+####################################################
+
+#Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "john2@doe.com",
+  "password": "12345678"
+}
