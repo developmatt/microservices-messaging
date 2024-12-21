@@ -1,0 +1,34 @@
+# Customers
+POST http://localhost:3000/customers
+Content-Type: application/json
+
+{
+  "email": "john2@doe.com",
+  "name": "John",
+  "phone": "1234567890",
+  "password": "12345678"
+}
+###
+
+#Get all
+GET http://localhost:3000/customers
+
+###
+
+#Get by id
+GET http://localhost:3000/customers/cm4y6qrt800001k37ye9m6qby
+
+###
+
+#Update
+PATCH http://localhost:3000/customers/cm4y6qrt800001k37ye9m6qby
+Content-Type: application/json
+
+{
+  "name": "John Doe"
+}
+
+###
+
+#Delete
+DELETE http://localhost:3000/customers/cm4y6qrt800001k37ye9m6qby
