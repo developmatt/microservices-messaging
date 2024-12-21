@@ -1,0 +1,18 @@
+# Orders
+
+#Create order
+POST http://localhost:3001/orders
+Content-Type: application/json
+
+{
+  "total": 0.500,
+  "customerId": "cm4yaib1400001k7gw84a53lz"
+}
+
+###
+#Get all orders
+GET http://localhost:3001/orders
+
+###
+#Get order by id
+GET http://localhost:3001/orders/cm4yav2xp00051kbuaqcne87k
