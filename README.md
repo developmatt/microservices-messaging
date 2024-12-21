@@ -3,7 +3,7 @@
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
+- Node.js (v20 or higher)
 - Docker
 - Docker Compose
 
